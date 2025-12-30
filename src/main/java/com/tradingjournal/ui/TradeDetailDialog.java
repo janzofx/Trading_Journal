@@ -32,7 +32,6 @@ public class TradeDetailDialog extends JDialog {
     private JTextField profitField;
     private JTextField commissionField;
     private JTextField swapField;
-    private JTextField netProfitField;
     private JComboBox<String> strategyField;
     private JTextField accountField;
     private JTextField magicField;
@@ -59,7 +58,8 @@ public class TradeDetailDialog extends JDialog {
 
         int row = 0;
 
-        // All fields are now editable
+        // All fields are editable except Net Profit (calculated from profit +
+        // commission + swap)
         ticketField = addField(mainPanel, gbc, row++, "Ticket:", trade.getTicket(), true);
         symbolField = addField(mainPanel, gbc, row++, "Symbol:", trade.getSymbol(), true);
         typeField = addField(mainPanel, gbc, row++, "Type:", trade.getType().toString(), true);
@@ -76,8 +76,8 @@ public class TradeDetailDialog extends JDialog {
         commissionField = addField(mainPanel, gbc, row++, "Commission:", String.format("$%.2f", trade.getCommission()),
                 true);
         swapField = addField(mainPanel, gbc, row++, "Swap:", String.format("$%.2f", trade.getSwap()), true);
-        netProfitField = addField(mainPanel, gbc, row++, "Net Profit:", String.format("$%.2f", trade.getNetProfit()),
-                true);
+        // Net Profit is calculated (profit + commission + swap), so it's read-only
+        addField(mainPanel, gbc, row++, "Net Profit:", String.format("$%.2f", trade.getNetProfit()), false);
 
         // Editable fields - Strategy dropdown
         gbc.gridx = 0;
