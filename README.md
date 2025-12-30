@@ -55,6 +55,66 @@ A professional, Java-based desktop application for analyzing your MetaTrader 5 t
 
 ---
 
+## 🧹 Managing Example Data
+
+After first launch, the application may contain example trades, strategies, and accounts for demonstration purposes. Here's how to clean them up:
+
+### Screenshots
+
+<p align="center">
+  <img src="screenshots/main_window.png" alt="Main Window" width="700"/>
+  <br><em>Main application window with trade list and analytics</em>
+</p>
+
+### Deleting Trades
+
+**Option 1: Clear All Trades at Once**
+1. Click **File** → **Clear All Trades** in the menu bar
+2. Confirm the deletion when prompted
+3. All trades will be removed instantly
+
+**Option 2: Delete Individual Trades**
+1. **Double-click** any trade in the table to open the Trade Details dialog
+2. Click the **"Delete"** button at the bottom
+3. Confirm the deletion when prompted
+
+<p align="center">
+  <img src="screenshots/delete_trade.png" alt="Delete Trade" width="500"/>
+  <br><em>Trade Details dialog with Delete button</em>
+</p>
+
+**Option 3: Delete the Trades File**
+- Simply delete the `trades.json` file from your installation folder
+- The file will be recreated empty when you restart the application
+
+### Managing Strategies
+
+1. Go to **Tools** → **Manage Strategies** in the menu bar
+2. Select any strategy from the list
+3. Click **"Remove Selected"** to delete it
+4. Repeat for all strategies you want to remove
+
+<p align="center">
+  <img src="screenshots/strategy_manager.png" alt="Strategy Manager" width="500"/>
+  <br><em>Strategy Manager dialog</em>
+</p>
+
+### Managing Accounts
+
+1. Go to **Tools** → **Manage Accounts** in the menu bar
+2. Select any account from the list
+3. Click **"Remove Selected"** to delete it
+4. Repeat for all accounts you want to remove
+
+<p align="center">
+  <img src="screenshots/account_manager.png" alt="Account Manager" width="500"/>
+  <br><em>Account Manager dialog</em>
+</p>
+
+> **💡 Tip:** You can also add and edit strategies and accounts using the respective manager dialogs!
+
+---
+
 ## 🛠️ Building from Source
 
 To modify or build the application from code:
