@@ -578,12 +578,44 @@ public class MainWindow extends JFrame {
         return scrollPane;
     }
 
+    private void addManualTrade() {
+        // Load suggestions
+        List<String> strategies = strategyRepository.loadAll();
+        // Add extra strategies from current trades
+        for (String s : equityCalculator.getUniqueStrategies(allTrades)) {
+            if (!strategies.contains(s))
+                strategies.add(s);
+        }
+
+        List<String> accounts = new ArrayList<>();
+        for (Account a : accountRepository.loadAll()) {
+            accounts.add(a.getName());
+        }
+        // Add extra accounts from trades
+        for (String a : equityCalculator.getUniqueAccounts(allTrades)) {
+            if (!accounts.contains(a))
+                accounts.add(a);
+        }
+
+        AddManualTradeDialog dialog = new AddManualTradeDialog(this, repository, strategies, accounts);
+        dialog.setVisible(true);
+
+        if (dialog.isTradeAdded()) {
+            loadTrades();
+            updateStatistics();
+        }
+    }
+
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton importButton = new JButton("Import TXT");
         importButton.addActionListener(e -> importTxtFile());
         panel.add(importButton);
+
+        JButton addTradeButton = new JButton("Add Manual Trade");
+        addTradeButton.addActionListener(e -> addManualTrade());
+        panel.add(addTradeButton);
 
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(e -> {
@@ -1143,8 +1175,8 @@ public class MainWindow extends JFrame {
         TradeDetailDialog dialog = new TradeDetailDialog(this, trade, repository, allStrategies);
         dialog.setVisible(true);
 
-        // Refresh if changes were saved
-        if (dialog.isSaved()) {
+        // Refresh if changes were saved or deleted
+        if (dialog.isSaved() || dialog.isDeleted()) {
             loadTrades();
             updateStatistics();
         }
@@ -1736,42 +1768,51 @@ public class MainWindow extends JFrame {
 
     private void setApplicationIcon() {
         try {
-            // Create a buffered image
-            int size = 64;
-            java.awt.image.BufferedImage image = new java.awt.image.BufferedImage(size, size,
-                    java.awt.image.BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = image.createGraphics();
+            Image iconImage = null;
+            File iconFile = new File("icon.png");
 
-            // Enable anti-aliasing
-            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            if (iconFile.exists()) {
+                iconImage = Toolkit.getDefaultToolkit().getImage(iconFile.getAbsolutePath());
+            } else {
+                // Fallback to generating from emoji
+                int size = 64;
+                java.awt.image.BufferedImage image = new java.awt.image.BufferedImage(size, size,
+                        java.awt.image.BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g2 = image.createGraphics();
 
-            // Draw the emoji
-            // Try different fonts that support emojis
-            Font font = new Font("Segoe UI Emoji", Font.PLAIN, 48);
-            if (!font.canDisplay("💹".codePointAt(0))) {
-                font = new Font("Dialog", Font.PLAIN, 48);
+                // Enable anti-aliasing
+                g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Draw the emoji
+                Font font = new Font("Segoe UI Emoji", Font.PLAIN, 48);
+                if (!font.canDisplay("💹".codePointAt(0))) {
+                    font = new Font("Dialog", Font.PLAIN, 48);
+                }
+                g2.setFont(font);
+
+                // Center the emoji
+                FontMetrics fm = g2.getFontMetrics();
+                int x = (size - fm.stringWidth("💹")) / 2;
+                int y = ((size - fm.getHeight()) / 2) + fm.getAscent();
+
+                g2.drawString("💹", x, y);
+                g2.dispose();
+                iconImage = image;
             }
-            g2.setFont(font);
 
-            // Center the emoji
-            FontMetrics fm = g2.getFontMetrics();
-            int x = (size - fm.stringWidth("💹")) / 2;
-            int y = ((size - fm.getHeight()) / 2) + fm.getAscent();
+            if (iconImage != null) {
+                // Set the icon
+                setIconImage(iconImage);
 
-            g2.drawString("💹", x, y);
-            g2.dispose();
-
-            // Set the icon
-            setIconImage(image);
-
-            // Also set for taskbar via reflection to be safe on older Java versions
-            try {
-                Class<?> taskbarClass = Class.forName("java.awt.Taskbar");
-                Object taskbar = taskbarClass.getMethod("getTaskbar").invoke(null);
-                taskbarClass.getMethod("setIconImage", Image.class).invoke(taskbar, image);
-            } catch (Throwable t) {
-                // Taskbar class not present or not supported
+                // Also set for taskbar via reflection to be safe on older Java versions
+                try {
+                    Class<?> taskbarClass = Class.forName("java.awt.Taskbar");
+                    Object taskbar = taskbarClass.getMethod("getTaskbar").invoke(null);
+                    taskbarClass.getMethod("setIconImage", Image.class).invoke(taskbar, iconImage);
+                } catch (Throwable t) {
+                    // Taskbar class not present or not supported
+                }
             }
         } catch (Exception e) {
             System.err.println("Could not set icon: " + e.getMessage());

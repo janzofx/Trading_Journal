@@ -126,6 +126,11 @@ public class TradeDetailDialog extends JDialog {
         saveButton.addActionListener(e -> saveTrade());
         buttonPanel.add(saveButton);
 
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.setBackground(new Color(255, 100, 100)); // Light red
+        deleteButton.addActionListener(e -> deleteTrade());
+        buttonPanel.add(deleteButton);
+
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
         buttonPanel.add(cancelButton);
@@ -185,5 +190,32 @@ public class TradeDetailDialog extends JDialog {
 
     public boolean isSaved() {
         return saved;
+    }
+
+    private boolean deleted = false;
+
+    private void deleteTrade() {
+        int result = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete this trade?\nThis action cannot be undone.",
+                "Confirm Deletion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                repository.delete(trade.getTicket());
+                deleted = true;
+                dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                        "Error deleting trade: " + e.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }
