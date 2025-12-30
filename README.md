@@ -78,7 +78,7 @@ A professional, cross-platform Java desktop application for analyzing your MetaT
 ## 📥 Importing Trades
 
 ### Step 1: Install Exporter Script
-1. Navigate to the **`exporter/`** folder in this repository
+1. Navigate to the **`Trade Exporter/`** folder in this repository
 2. Copy **`TradeExporter.ex5`**
 3. Open MetaTrader 5, go to **File** → **Open Data Folder**
 4. Navigate to **`MQL5\Scripts\`** (Windows) or **`MQL5/Scripts/`** (macOS/Linux)
@@ -290,7 +290,7 @@ Trading Journal/
 │       ├── repository/      # Data persistence layer
 │       ├── service/         # Business logic
 │       └── ui/              # Swing UI components
-├── exporter/                # MT5 Export Script (.ex5 / .mq5)
+├── Trade Exporter/          # MT5 Export Script (.ex5 / .mq5)
 ├── screenshots/             # Application screenshots
 ├── target/                  # Compiled binaries (generated)
 ├── TradingJournal.exe       # Windows launcher
