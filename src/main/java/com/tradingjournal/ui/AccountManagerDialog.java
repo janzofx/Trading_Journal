@@ -1,7 +1,9 @@
 package com.tradingjournal.ui;
 
 import com.tradingjournal.model.Account;
+import com.tradingjournal.model.Trade;
 import com.tradingjournal.repository.AccountRepository;
+import com.tradingjournal.repository.TradeRepository;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,10 +19,12 @@ public class AccountManagerDialog extends JDialog {
     private DefaultTableModel tableModel;
     private List<Account> accounts;
     private final AccountRepository repository;
+    private final TradeRepository tradeRepository;
 
-    public AccountManagerDialog(Frame parent, AccountRepository repository) {
+    public AccountManagerDialog(Frame parent, AccountRepository repository, TradeRepository tradeRepository) {
         super(parent, "Account Manager", true);
         this.repository = repository;
+        this.tradeRepository = tradeRepository;
         this.accounts = repository.loadAll();
         initComponents();
         setLocationRelativeTo(parent);
@@ -63,6 +67,10 @@ public class AccountManagerDialog extends JDialog {
         JButton addButton = new JButton("Add Account");
         addButton.addActionListener(e -> addAccount());
         buttonPanel.add(addButton);
+
+        JButton renameButton = new JButton("Rename Selected");
+        renameButton.addActionListener(e -> renameAccount());
+        buttonPanel.add(renameButton);
 
         JButton removeButton = new JButton("Remove Selected");
         removeButton.addActionListener(e -> removeAccount());
@@ -165,6 +173,65 @@ public class AccountManagerDialog extends JDialog {
                     "Account removed successfully!",
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void renameAccount() {
+        int selectedRow = accountTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Please select an account to rename.",
+                    "No Selection",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String oldAccountName = (String) tableModel.getValueAt(selectedRow, 0);
+
+        // Prompt for new name
+        String newAccountName = JOptionPane.showInputDialog(this,
+                "Enter new name for account '" + oldAccountName + "':",
+                "Rename Account",
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (newAccountName == null || newAccountName.trim().isEmpty()) {
+            return; // User cancelled or entered empty name
+        }
+
+        newAccountName = newAccountName.trim();
+
+        // Attempt to rename in repository
+        if (repository.rename(oldAccountName, newAccountName)) {
+            // Update all trades with the old account name
+            List<Trade> allTrades = tradeRepository.findAll();
+            boolean tradesUpdated = false;
+
+            for (Trade trade : allTrades) {
+                if (oldAccountName.equalsIgnoreCase(trade.getAccount())) {
+                    trade.setAccount(newAccountName);
+                    tradeRepository.save(trade);
+                    tradesUpdated = true;
+                }
+            }
+
+            accounts = repository.loadAll(); // Reload
+            loadAccounts();
+
+            String message = "Account renamed successfully!";
+            if (tradesUpdated) {
+                message += "\nAll associated trades have been updated.";
+            }
+
+            JOptionPane.showMessageDialog(this,
+                    message,
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Failed to rename account. An account with name '" + newAccountName + "' may already exist.",
+                    "Rename Failed",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

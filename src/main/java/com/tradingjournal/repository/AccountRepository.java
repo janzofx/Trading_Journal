@@ -95,4 +95,35 @@ public class AccountRepository {
             saveAll(accounts);
         }
     }
+
+    /**
+     * Rename an account
+     */
+    public boolean rename(String oldName, String newName) {
+        if (oldName == null || newName == null || oldName.trim().isEmpty() || newName.trim().isEmpty()) {
+            return false;
+        }
+
+        List<Account> accounts = loadAll();
+
+        // Check if new name already exists (and it's not the same account)
+        if (accounts.stream()
+                .anyMatch(a -> a.getName().equalsIgnoreCase(newName) && !a.getName().equalsIgnoreCase(oldName))) {
+            return false; // New name already exists
+        }
+
+        // Find and rename the account
+        Optional<Account> accountToRename = accounts.stream()
+                .filter(a -> a.getName().equalsIgnoreCase(oldName))
+                .findFirst();
+
+        if (accountToRename.isPresent()) {
+            Account account = accountToRename.get();
+            account.setName(newName);
+            saveAll(accounts);
+            return true;
+        }
+
+        return false;
+    }
 }

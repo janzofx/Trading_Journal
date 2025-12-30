@@ -1771,7 +1771,7 @@ public class MainWindow extends JFrame {
      * Show account manager dialog
      */
     private void showAccountManager() {
-        AccountManagerDialog dialog = new AccountManagerDialog(this, accountRepository);
+        AccountManagerDialog dialog = new AccountManagerDialog(this, accountRepository, repository);
         dialog.setVisible(true);
 
         // Refresh dropdowns and curve
