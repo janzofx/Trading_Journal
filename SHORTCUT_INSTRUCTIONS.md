@@ -1,52 +1,90 @@
-# 🚀 Trading Journal - Installation & Usage Guide
+# 🚀 Trading Journal - Launch & Shortcuts Guide
 
-This guide provides instructions on how to install, configure, and launch the Trading Journal application.
+This guide provides instructions on how to launch the Trading Journal on your specific operating system and create convenient shortcuts.
 
-## 📦 Installation
+## 📦 Prerequisites
 
-### Prerequisites
-- **Windows OS** (Windows 10/11 Recommended)
-- **Java Runtime Environment** (JDK 21 is embedded/detected automatically)
-
-### Quick Start
-The application is distributed as a portable executable. No installation wizard is required.
-
-1. **Navigate** to the application directory:
-   ```
-   C:\Algo Trading\Journal\
-   ```
-2. **Launch** the application:
-   - Double-click **`TradingJournal.exe`** 💹
+| OS | Requirement |
+| :--- | :--- |
+| **Windows** | Windows 10/11 • Java 11+ |
+| **macOS** | macOS 10.14+ • Java 11+ |
+| **Linux** | Ubuntu/Debian (or similar) • Java 11+ |
 
 ---
 
-## 🖥️ Desktop Integration
+## 🪟 Windows Setup
 
-To make the application easily accessible, you can create shortcuts or pin it to your taskbar.
+### Launching
+Simply double-click **`TradingJournal.exe`** in the main folder.
 
-### Create Desktop Shortcut
+### Creating a Desktop Shortcut
 1. Right-click on `TradingJournal.exe`.
 2. Select **Send to** > **Desktop (create shortcut)**.
-3. A shortcut with the application icon will appear on your desktop.
+3. The shortcut with the correct icon will appear on your desktop.
 
-### Pin to Taskbar / Start Menu
+### Pinning to Taskbar
 1. Right-click on `TradingJournal.exe`.
 2. Select **Pin to taskbar** or **Pin to Start**.
 
 ---
 
+## 🍎 macOS Setup
+
+### Launching
+1. Open Terminal in the project folder.
+2. Run the launch script:
+   ```bash
+   ./run.sh
+   ```
+
+### Creating a Dock Shortcut (Advanced)
+To create a clickable app icon for your Dock:
+
+1. Open **Automator** (Cmd + Space, type "Automator").
+2. Choose **"Application"** as the document type.
+3. Search for **"Run Shell Script"** action and drag it to the workflow.
+4. Paste the following command (update the path to your folder!):
+   ```bash
+   cd "/Users/YOUR_USERNAME/path/to/Trading Journal"
+   ./run.sh
+   ```
+5. Save the application as "Trading Journal" in your `/Applications` folder.
+6. Drag the new app from `/Applications` to your Dock.
+
+---
+
+## 🐧 Linux Setup
+
+### Launching
+1. Open Terminal.
+2. Make sure the script is executable: `chmod +x run.sh`
+3. Run:
+   ```bash
+   ./run.sh
+   ```
+
+### Creating a Desktop Entry (.desktop)
+Create a file named `TradingJournal.desktop` in `~/.local/share/applications/` with the following content:
+
+```ini
+[Desktop Entry]
+Name=Trading Journal
+Comment=Analyze trading performance
+Exec=/path/to/trading-journal/run.sh
+Icon=/path/to/trading-journal/icon.png
+Terminal=false
+Type=Application
+Categories=Office;Finance;
+```
+
+---
+
 ## 🛠️ Building from Source
 
-If you are a developer or need to recompile the application after editing the source code (located in `src/main/java`), follow these steps:
+If you need to recompile the application:
 
-1. **Navigate** to the project root directory.
-2. **Execute** the build script:
-   - Double-click `build_app.bat`
-   - _Or run via terminal:_ `.\build_app.bat`
-3. **Wait** for the process to complete.
-   - The script will compile all Java sources and package them into a JAR.
-   - It will then update the executable wrapper.
-4. **Restart** the application to see your changes.
+*   **Windows**: Run `build_app.bat`
+*   **macOS / Linux**: Run `./build.sh`
 
 ---
 
@@ -54,9 +92,6 @@ If you are a developer or need to recompile the application after editing the so
 
 | Issue | Solution |
 |-------|----------|
-| **App fails to start** | Ensure that the `target/` directory exists and contains `trading-journal-1.0.0.jar`. Run `build_app.bat` to regenerate it. |
-| **Icon incorrect** | The icon is embedded in the EXE. Try clearing your Windows icon cache or restarting Explorer if it glitches. |
-| **Java not found** | The application attempts to use a bundled JDK. If moved to another machine, ensure Java 21 is installed and available in the system PATH. |
-
----
-*Generated for Trading Journal Project*
+| **App fails to start** | Ensure you have Java 11 or higher installed. Run `java -version` in your terminal to check. |
+| **Icon missing** | On Windows, cache issues may occur; restart PC. On Linux, ensure the `.desktop` file points to the absolute path of `icon.png`. |
+| **Permission Denied** | On macOS/Linux, ensure scripts are executable: `chmod +x run.sh build.sh` |
