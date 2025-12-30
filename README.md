@@ -2,7 +2,7 @@
 
 A professional, Java-based desktop application for analyzing your MetaTrader 5 trading performance. Import your trade history directly and visualize your edge with comprehensive analytics and beautiful UI.
 
-![Trading Journal Icon](icon.png)
+<img src="icon.png" alt="Trading Journal Icon" width="150"/>
 
 ## ✨ Features
 
