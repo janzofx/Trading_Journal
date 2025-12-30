@@ -1,6 +1,8 @@
 package com.tradingjournal.ui;
 
+import com.tradingjournal.model.Trade;
 import com.tradingjournal.repository.StrategyRepository;
+import com.tradingjournal.repository.TradeRepository;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,11 +19,14 @@ public class StrategyManagerDialog extends JDialog {
     private DefaultTableModel tableModel;
     private List<String> strategies;
     private StrategyRepository repository;
+    private TradeRepository tradeRepository;
 
-    public StrategyManagerDialog(Frame parent, List<String> existingStrategies, StrategyRepository repository) {
+    public StrategyManagerDialog(Frame parent, List<String> existingStrategies, StrategyRepository repository,
+            TradeRepository tradeRepository) {
         super(parent, "Strategy Manager", true);
         this.strategies = new ArrayList<String>(existingStrategies);
         this.repository = repository;
+        this.tradeRepository = tradeRepository;
         initComponents();
         setLocationRelativeTo(parent);
     }
@@ -63,6 +68,10 @@ public class StrategyManagerDialog extends JDialog {
         JButton addButton = new JButton("Add Strategy");
         addButton.addActionListener(e -> addStrategy());
         buttonPanel.add(addButton);
+
+        JButton renameButton = new JButton("Rename Selected");
+        renameButton.addActionListener(e -> renameStrategy());
+        buttonPanel.add(renameButton);
 
         JButton removeButton = new JButton("Remove Selected");
         removeButton.addActionListener(e -> removeStrategy());
@@ -154,5 +163,70 @@ public class StrategyManagerDialog extends JDialog {
 
     public List<String> getStrategies() {
         return new ArrayList<String>(strategies);
+    }
+
+    private void renameStrategy() {
+        int selectedRow = strategyTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Please select a strategy to rename.",
+                    "No Selection",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String oldStrategyName = (String) tableModel.getValueAt(selectedRow, 0);
+
+        // Prompt for new name
+        String newStrategyName = JOptionPane.showInputDialog(this,
+                "Enter new name for strategy '" + oldStrategyName + "':",
+                "Rename Strategy",
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (newStrategyName == null || newStrategyName.trim().isEmpty()) {
+            return; // User cancelled or entered empty name
+        }
+
+        newStrategyName = newStrategyName.trim();
+
+        // Attempt to rename in repository
+        if (repository.rename(oldStrategyName, newStrategyName)) {
+            // Update all trades with the old strategy name
+            List<Trade> allTrades = tradeRepository.findAll();
+            boolean tradesUpdated = false;
+
+            for (Trade trade : allTrades) {
+                if (oldStrategyName.equalsIgnoreCase(trade.getStrategy())) {
+                    trade.setStrategy(newStrategyName);
+                    tradeRepository.save(trade);
+                    tradesUpdated = true;
+                }
+            }
+
+            // Update local list
+            for (int i = 0; i < strategies.size(); i++) {
+                if (strategies.get(i).equalsIgnoreCase(oldStrategyName)) {
+                    strategies.set(i, newStrategyName);
+                    break;
+                }
+            }
+            loadStrategies();
+
+            String message = "Strategy renamed successfully!";
+            if (tradesUpdated) {
+                message += "\nAll associated trades have been updated.";
+            }
+
+            JOptionPane.showMessageDialog(this,
+                    message,
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Failed to rename strategy. A strategy with name '" + newStrategyName + "' may already exist.",
+                    "Rename Failed",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

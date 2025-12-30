@@ -83,4 +83,37 @@ public class StrategyRepository {
             saveAll(strategies);
         }
     }
+
+    /**
+     * Rename a strategy label
+     */
+    public boolean rename(String oldName, String newName) {
+        if (oldName == null || newName == null || oldName.trim().isEmpty() || newName.trim().isEmpty()) {
+            return false;
+        }
+
+        List<String> strategies = loadAll();
+
+        // Check if new name already exists (and it's not the same strategy)
+        if (strategies.stream().anyMatch(s -> s.equalsIgnoreCase(newName) && !s.equalsIgnoreCase(oldName))) {
+            return false; // New name already exists
+        }
+
+        // Find and replace the strategy
+        boolean found = false;
+        for (int i = 0; i < strategies.size(); i++) {
+            if (strategies.get(i).equalsIgnoreCase(oldName)) {
+                strategies.set(i, newName);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            saveAll(strategies);
+            return true;
+        }
+
+        return false;
+    }
 }

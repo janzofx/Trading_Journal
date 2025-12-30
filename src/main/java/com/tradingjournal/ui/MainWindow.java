@@ -1697,7 +1697,7 @@ public class MainWindow extends JFrame {
             }
         }
 
-        StrategyManagerDialog dialog = new StrategyManagerDialog(this, allStrategies, strategyRepository);
+        StrategyManagerDialog dialog = new StrategyManagerDialog(this, allStrategies, strategyRepository, repository);
         dialog.setVisible(true);
 
         // Refresh filters after dialog closes
