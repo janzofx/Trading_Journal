@@ -222,8 +222,19 @@ Drill down into your data to find exactly what is working—and what isn't.
 ### 3. Analytics & Performance
 Switch to the **Analytics** tab for deep-dive statistics.
 
+**Performance Overview:**
 <p align="center">
   <img src="screenshots/analytics_panel.png" alt="Analytics Panel" width="800"/>
+</p>
+
+**Detailed Breakdown (Hourly & Daily):**
+<p align="center">
+  <img src="screenshots/analytics_charts_1.png" alt="Hourly and Daily Analysis" width="800"/>
+</p>
+
+**Monthly Progress:**
+<p align="center">
+  <img src="screenshots/analytics_charts_2.png" alt="Monthly Analysis" width="800"/>
 </p>
 
 *   **Win/Loss by Day**: Identify your best trading days of the week.
