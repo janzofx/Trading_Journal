@@ -194,16 +194,78 @@ TradingJournal.exe
 
 ---
 
-## 📊 Key Metrics Explained
+## � Application Overview
 
-| Metric | Description |
-|--------|-------------|
-| **Profit Factor** | Gross Profit / Gross Loss. (> 1.5 is good, > 2.0 is excellent) |
-| **Win Rate** | Percentage of trades that ended in profit |
-| **Expectancy** | Average amount you can expect to win (or lose) per trade |
-| **Sharpe Ratio** | Risk-adjusted return metric |
-| **Max Drawdown** | The largest peak-to-valley decline in account equity |
-| **Long/Short Win %** | Performance breakdown by trade direction |
+### 1. Main Dashboard
+The main dashboard gives you an instant health check of your trading performance.
+
+<p align="center">
+  <img src="screenshots/main_overview.png" alt="Main Dashboard" width="800"/>
+</p>
+
+*   **Equity Curve**: Visualizes the growth of your account over time. A healthy curve moves from bottom-left to top-right.
+*   **Trade List**: Detailed table of every trade. Double-click any row to edit prices, dates, or add notes.
+*   **Quick Stats**: Immediate view of your Win Rate, Net Profit, and Profit Factor at the top.
+
+### 2. Powerful Filters
+Drill down into your data to find exactly what is working—and what isn't.
+
+<p align="center">
+  <img src="screenshots/filters_bar.png" alt="Filters Toolbar" width="800"/>
+</p>
+
+*   **Strategy**: Filter by specific setups (e.g., "Trend Following" vs "Reversal").
+*   **Symbol**: See which instruments trigger the most wins.
+*   **Account**: Toggle between different trading accounts (e.g., "Live" vs "Prop Firm").
+*   **Time**: Filter by specific date ranges.
+
+### 3. Analytics & Performance
+Switch to the **Analytics** tab for deep-dive statistics.
+
+<p align="center">
+  <img src="screenshots/analytics_panel.png" alt="Analytics Panel" width="800"/>
+</p>
+
+*   **Win/Loss by Day**: Identify your best trading days of the week.
+*   **Hourly Performance**: Find your most profitable times of day.
+*   **Long vs Short**: Analyze directional bias in your trading.
+
+### 4. Smart Import
+Importing trades is easier than ever. The import dialog now lets you bulk-assign properties.
+
+<p align="center">
+  <img src="screenshots/import_dialog.png" alt="Import Dialog" width="600"/>
+</p>
+
+*   **Account Assignment**: Assign all imported trades to a specific account (e.g., "FTMO Challenge").
+*   **Strategy Assignment**: Tag an entire batch of trades with a strategy (e.g., "News Trading") instantly.
+
+### 5. Manual Manual Entry
+Forgot to log a trade? Add it manually.
+
+<p align="center">
+  <img src="screenshots/add_trade_dialog.png" alt="Add Manual Trade" width="500"/>
+</p>
+
+*   **Complete Data**: Enter entry/exit prices, times, and volume.
+*   **Calculations**: The system will automatically calculate P/L if you provide prices and size.
+
+---
+
+## 📊 Metrics Dictionary
+
+Understanding your stats is key to improvement. Here is what every number tells you:
+
+| Metric | Definition | Why it Matters |
+| :--- | :--- | :--- |
+| **Net Profit** | `Total Profit - Total Loss` | The bottom line. Are you making money? |
+| **Profit Factor** | `Gross Profit / Gross Loss` | Measures the efficiency of your strategy. <br>• **< 1.0**: Losing strategy<br>• **1.0 - 1.5**: Marginal / Break-even<br>• **1.5 - 2.0**: Good<br>• **> 2.0**: Excellent |
+| **Win Rate** | `(Winning Trades / Total Trades) * 100` | How often you are right. Note: High win rate doesn't guarantee profit if losses are large. |
+| **Expectancy** | `(Avg Win * Win Rate) - (Avg Loss * Loss Rate)` | The average amount you can expect to earn (or lose) per trade over the long run. Positive expectancy = profitable edge. |
+| **Sharpe Ratio** | Risk-adjusted return metric. | Measures return per unit of risk. Higher is better (usually > 1.0). |
+| **Max Drawdown** | Largest peak-to-valley percentage drop. | Measures the risk of your strategy. Lower is safer. |
+| **SQN (System Quality Number)** | Statistical score of your trading system. | Used to evaluate the "quality" of your edge. <br>• **< 1.6**: Poor<br>• **1.6 - 2.0**: Average<br>• **2.0 - 2.5**: Good<br>• **> 3.0**: Excellent |
+| **Z-Score** | Statistical measure of streaks. | Tells you if wins/losses are random or clustered. |
 
 ---
 
