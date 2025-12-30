@@ -699,6 +699,39 @@ public class MainWindow extends JFrame {
                                 }
                             }
 
+                            // Prompt for strategy assignment (optional)
+                            List<String> strategies = strategyRepository.loadAll();
+                            String strategy = null;
+
+                            if (!strategies.isEmpty()) {
+                                // Add "None" option for users who don't want to assign a strategy
+                                Object[] strategyOptions = new Object[strategies.size() + 1];
+                                strategyOptions[0] = "(None)";
+                                for (int i = 0; i < strategies.size(); i++) {
+                                    strategyOptions[i + 1] = strategies.get(i);
+                                }
+
+                                Object selectedStrategy = JOptionPane.showInputDialog(
+                                        MainWindow.this,
+                                        "Optionally select a Strategy for imported trades:",
+                                        "Strategy Assignment (Optional)",
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        strategyOptions,
+                                        strategyOptions[0]);
+
+                                if (selectedStrategy != null && !"(None)".equals(selectedStrategy)) {
+                                    strategy = selectedStrategy.toString();
+                                }
+                            }
+
+                            // Assign strategy to all imported trades (if user provided one)
+                            if (strategy != null && !strategy.trim().isEmpty()) {
+                                for (Trade trade : importedTrades) {
+                                    trade.setStrategy(strategy.trim());
+                                }
+                            }
+
                             // Merge with existing trades to preserve Strategy, Comment, etc.
                             for (Trade importedTrade : importedTrades) {
                                 // If ticket exists, preserve local data
