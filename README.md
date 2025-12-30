@@ -85,7 +85,7 @@ A professional, cross-platform Java desktop application for analyzing your MetaT
 5. Paste the file there
 6. In MT5 Navigator window (Ctrl+N / Cmd+N), right-click **Scripts** and select **Refresh**
 
-> **Note:** The `.ex5` file works on all platforms. If you need to modify the script, the source `.mq5` file is also available in the `exporter/` folder.
+
 
 ### Step 2: Export Data
 1. Drag **`TradeExporter`** from Navigator onto any chart
