@@ -1,10 +1,12 @@
 package com.tradingjournal.ui;
 
 import com.tradingjournal.model.Trade;
+import com.tradingjournal.model.TradeType;
 import com.tradingjournal.repository.TradeRepository;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -19,6 +21,18 @@ public class TradeDetailDialog extends JDialog {
     private boolean saved = false;
 
     // Editable fields
+    private JTextField ticketField;
+    private JTextField symbolField;
+    private JTextField typeField;
+    private JTextField sizeField;
+    private JTextField openTimeField;
+    private JTextField openPriceField;
+    private JTextField closeTimeField;
+    private JTextField closePriceField;
+    private JTextField profitField;
+    private JTextField commissionField;
+    private JTextField swapField;
+    private JTextField netProfitField;
     private JComboBox<String> strategyField;
     private JTextField accountField;
     private JTextField magicField;
@@ -45,22 +59,25 @@ public class TradeDetailDialog extends JDialog {
 
         int row = 0;
 
-        // Read-only fields
-        addField(mainPanel, gbc, row++, "Ticket:", trade.getTicket(), false);
-        addField(mainPanel, gbc, row++, "Symbol:", trade.getSymbol(), false);
-        addField(mainPanel, gbc, row++, "Type:", trade.getType().toString(), false);
-        addField(mainPanel, gbc, row++, "Size:", String.format("%.2f", trade.getSize()), false);
-        addField(mainPanel, gbc, row++, "Open Time:",
-                trade.getOpenTime() != null ? trade.getOpenTime().format(DATE_FORMATTER) : "N/A", false);
-        addField(mainPanel, gbc, row++, "Open Price:", String.format("%.5f", trade.getOpenPrice()), false);
-        addField(mainPanel, gbc, row++, "Close Time:",
-                trade.isClosed() ? trade.getCloseTime().format(DATE_FORMATTER) : "Open", false);
-        addField(mainPanel, gbc, row++, "Close Price:",
-                trade.isClosed() ? String.format("%.5f", trade.getClosePrice()) : "N/A", false);
-        addField(mainPanel, gbc, row++, "Profit:", String.format("$%.2f", trade.getProfit()), false);
-        addField(mainPanel, gbc, row++, "Commission:", String.format("$%.2f", trade.getCommission()), false);
-        addField(mainPanel, gbc, row++, "Swap:", String.format("$%.2f", trade.getSwap()), false);
-        addField(mainPanel, gbc, row++, "Net Profit:", String.format("$%.2f", trade.getNetProfit()), false);
+        // All fields are now editable
+        ticketField = addField(mainPanel, gbc, row++, "Ticket:", trade.getTicket(), true);
+        symbolField = addField(mainPanel, gbc, row++, "Symbol:", trade.getSymbol(), true);
+        typeField = addField(mainPanel, gbc, row++, "Type:", trade.getType().toString(), true);
+        sizeField = addField(mainPanel, gbc, row++, "Size:", String.format("%.2f", trade.getSize()), true);
+        openTimeField = addField(mainPanel, gbc, row++, "Open Time:",
+                trade.getOpenTime() != null ? trade.getOpenTime().format(DATE_FORMATTER) : "N/A", true);
+        openPriceField = addField(mainPanel, gbc, row++, "Open Price:", String.format("%.5f", trade.getOpenPrice()),
+                true);
+        closeTimeField = addField(mainPanel, gbc, row++, "Close Time:",
+                trade.isClosed() ? trade.getCloseTime().format(DATE_FORMATTER) : "Open", true);
+        closePriceField = addField(mainPanel, gbc, row++, "Close Price:",
+                trade.isClosed() ? String.format("%.5f", trade.getClosePrice()) : "N/A", true);
+        profitField = addField(mainPanel, gbc, row++, "Profit:", String.format("$%.2f", trade.getProfit()), true);
+        commissionField = addField(mainPanel, gbc, row++, "Commission:", String.format("$%.2f", trade.getCommission()),
+                true);
+        swapField = addField(mainPanel, gbc, row++, "Swap:", String.format("$%.2f", trade.getSwap()), true);
+        netProfitField = addField(mainPanel, gbc, row++, "Net Profit:", String.format("$%.2f", trade.getNetProfit()),
+                true);
 
         // Editable fields - Strategy dropdown
         gbc.gridx = 0;
@@ -141,7 +158,8 @@ public class TradeDetailDialog extends JDialog {
         setMinimumSize(new Dimension(500, 600));
     }
 
-    private void addField(JPanel panel, GridBagConstraints gbc, int row, String label, String value, boolean editable) {
+    private JTextField addField(JPanel panel, GridBagConstraints gbc, int row, String label, String value,
+            boolean editable) {
         gbc.gridx = 0;
         gbc.gridy = row;
         gbc.fill = GridBagConstraints.NONE;
@@ -155,10 +173,51 @@ public class TradeDetailDialog extends JDialog {
             field.setBackground(Color.LIGHT_GRAY);
         }
         panel.add(field, gbc);
+        return field;
     }
 
     private void saveTrade() {
         try {
+            // Update all fields from the form
+            trade.setTicket(ticketField.getText().trim());
+            trade.setSymbol(symbolField.getText().trim());
+
+            // Parse type (BUY or SELL)
+            String typeText = typeField.getText().trim().toUpperCase();
+            trade.setType(TradeType.valueOf(typeText));
+
+            // Parse numeric fields
+            trade.setSize(Double.parseDouble(sizeField.getText().trim()));
+
+            // Parse dates
+            String openTimeText = openTimeField.getText().trim();
+            if (!openTimeText.isEmpty() && !openTimeText.equals("N/A")) {
+                trade.setOpenTime(LocalDateTime.parse(openTimeText, DATE_FORMATTER));
+            }
+
+            String closeTimeText = closeTimeField.getText().trim();
+            if (!closeTimeText.isEmpty() && !closeTimeText.equals("Open") && !closeTimeText.equals("N/A")) {
+                trade.setCloseTime(LocalDateTime.parse(closeTimeText, DATE_FORMATTER));
+            }
+
+            // Parse prices
+            trade.setOpenPrice(Double.parseDouble(openPriceField.getText().trim()));
+
+            String closePriceText = closePriceField.getText().trim();
+            if (!closePriceText.isEmpty() && !closePriceText.equals("N/A")) {
+                trade.setClosePrice(Double.parseDouble(closePriceText));
+            }
+
+            // Parse profit, commission, swap (remove $ sign if present)
+            String profitText = profitField.getText().trim().replace("$", "");
+            trade.setProfit(Double.parseDouble(profitText));
+
+            String commissionText = commissionField.getText().trim().replace("$", "");
+            trade.setCommission(Double.parseDouble(commissionText));
+
+            String swapText = swapField.getText().trim().replace("$", "");
+            trade.setSwap(Double.parseDouble(swapText));
+
             // Update editable fields - get strategy from combo box
             String selectedStrategy = (String) strategyField.getSelectedItem();
             trade.setStrategy(selectedStrategy != null ? selectedStrategy : "");
@@ -177,7 +236,13 @@ public class TradeDetailDialog extends JDialog {
             dispose();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
-                    "Invalid magic number. Please enter a valid number.",
+                    "Invalid number format. Please check your inputs:\n" +
+                            "Size, prices, profit, commission, swap, and magic number must be valid numbers.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Invalid trade type. Please enter BUY or SELL.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
