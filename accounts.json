@@ -1,0 +1,10 @@
+[
+  {
+    "name": "FTMO",
+    "startingBalance": 20000.0
+  },
+  {
+    "name": "Live",
+    "startingBalance": 10000.0
+  }
+]
