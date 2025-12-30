@@ -43,3 +43,7 @@ trades.json
 *.xlsx
 *.xls
 !sample_trades.xlsx
+
+# Build artifacts
+sources_quoted.txt
+generate_sources.ps1
