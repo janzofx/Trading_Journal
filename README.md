@@ -27,19 +27,25 @@ A professional, cross-platform Java desktop application for analyzing your MetaT
 
 ### Prerequisites
 
+**All Platforms:**
+- Java 11+ (JDK recommended for building)
+- MetaTrader 5 (for exporting trading data)
+  - Windows: [Download MT5](https://www.metatrader5.com/en/download)
+  - macOS: [Download MT5 for Mac](https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/MetaTrader5.dmg)
+  - Linux: [Download MT5 for Linux](https://www.metatrader5.com/en/download/linux)
+
 **Windows:**
 - Windows 10/11
-- Java 11+ (included in `.exe`, but JDK recommended for building)
-- MetaTrader 5 (for exporting data)
 
 **macOS:**
 - macOS 10.14+
-- Java 11+ (install via `brew install openjdk@11`)
-- Maven (optional, for building: `brew install maven`)
+- Install Java: `brew install openjdk@11`
+- Maven (optional): `brew install maven`
 
 **Linux:**
-- Java 11+
-- Maven (optional, for building)
+- Ubuntu/Debian or compatible distro
+- Install Java: `sudo apt install openjdk-11-jdk`
+- Maven (optional): `sudo apt install maven`
 
 ### Installation
 
@@ -71,19 +77,23 @@ A professional, cross-platform Java desktop application for analyzing your MetaT
 
 ## 📥 Importing Trades
 
-### Step 1: Install Exporter Script (Windows Only)
+### Step 1: Install Exporter Script
 1. Navigate to the **`exporter/`** folder in this repository
 2. Copy **`TradeExporter.ex5`**
 3. Open MetaTrader 5, go to **File** → **Open Data Folder**
-4. Navigate to **`MQL5\Scripts\`** and paste the file there
-5. In MT5 Navigator window (Ctrl+N), right-click **Scripts** and select **Refresh**
+4. Navigate to **`MQL5\Scripts\`** (Windows) or **`MQL5/Scripts/`** (macOS/Linux)
+5. Paste the file there
+6. In MT5 Navigator window (Ctrl+N / Cmd+N), right-click **Scripts** and select **Refresh**
 
-> **Note:** MT5 is primarily a Windows application. On macOS/Linux, you may need to use Wine or export trades manually.
+> **Note:** The `.ex5` file works on all platforms. If you need to modify the script, the source `.mq5` file is also available in the `exporter/` folder.
 
 ### Step 2: Export Data
 1. Drag **`TradeExporter`** from Navigator onto any chart
 2. Click **OK**
-3. A file named `TradingJournal_Export.txt` will be created in `MQL5\Files`
+3. A file named `TradingJournal_Export.txt` will be created in `MQL5/Files`
+   - **Windows**: `%APPDATA%\MetaQuotes\Terminal\[instance]\MQL5\Files`
+   - **macOS**: `~/Library/Application Support/MetaTrader 5/Bottles/[instance]/drive_c/users/[user]/Application Data/MetaQuotes/Terminal/[instance]/MQL5/Files`
+   - **Linux**: `~/.wine/drive_c/Program Files/MetaTrader 5/MQL5/Files`
 
 ### Step 3: Import into Journal
 1. Open **Trading Journal**
@@ -231,7 +241,7 @@ Trading Journal/
 | **Windows 10/11** | ✅ Full Support | Native `.exe` launcher with custom icon |
 | **macOS** | ✅ Full Support | Run via `./run.sh` or JAR directly |
 | **Linux** | ✅ Full Support | Run via `./run.sh` or JAR directly |
-| **MT5 Integration** | ⚠️ Windows Only | MT5 is Windows-native (use Wine on macOS/Linux) |
+| **MT5 Integration** | ✅ All Platforms | MT5 available natively on Windows, macOS, and Linux |
 
 ---
 
