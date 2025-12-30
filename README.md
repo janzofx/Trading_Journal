@@ -1,18 +1,21 @@
 # 📈 Trading Journal
 
-A professional, Java-based desktop application for analyzing your MetaTrader 5 trading performance. Import your trade history directly and visualize your edge.
+A professional, Java-based desktop application for analyzing your MetaTrader 5 trading performance. Import your trade history directly and visualize your edge with comprehensive analytics and beautiful UI.
 
-![Trading Journal](chart_icon_1767028702865.png)
+![Trading Journal Icon](icon.png)
 
 ## ✨ Features
 
-- **📊 Advanced Analytics**: Real-time calculation of Win Rate, Profit Factor, Expected Value, and more.
-- **💹 Equity Curve**: Visualize your account growth with a dynamic equity curve.
-- **📅 Period Analysis**: Breakdown performance by Weekday, Hour, and Month.
+- **📊 Advanced Analytics**: Real-time calculation of Win Rate, Profit Factor, Expected Value, Sharpe Ratio, and more.
+- **💹 Equity Curve**: Visualize your account growth with a dynamic equity curve and drawdown analysis.
+- **📅 Period Analysis**: Breakdown performance by Weekday, Hour, and Month with detailed charts.
 - **🏷️ Strategy Tagging**: Tag trades by strategy/setup (e.g., "ORB", "Z-Score") to see what works best.
 - **🔄 MT5 Integration**: Seamless import from MetaTrader 5 using our custom `TradeExporter` script.
+- **➕ Manual Trade Entry**: Add trades manually with a user-friendly dialog for data not in MT5.
+- **🗑️ Trade Management**: Delete trades easily with a double-click action on any trade row.
 - **📂 Multi-Account**: Manage multiple trading accounts in one place.
 - **📝 Trade Notes**: Add comments and post-trade analysis to your records.
+- **🎨 Professional UI**: Custom application icon and modern interface with native Windows feel.
 
 ---
 
@@ -87,6 +90,8 @@ Trading Journal/
 ├── exporter/             # MT5 Export Script (.ex5 / .mq5)
 ├── target/               # Compiled Binaries
 ├── TradingJournal.exe    # Main Application
+├── icon.png              # Application Icon (PNG)
+├── icon.ico              # Application Icon (ICO)
 ├── build_app.bat         # Build Script
 └── trades.json           # Your Trade Database (Auto-generated)
 ```
