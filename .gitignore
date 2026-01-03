@@ -47,3 +47,4 @@ trades.json
 # Build artifacts
 sources_quoted.txt
 generate_sources.ps1
+Trade Exporter/TradeExporter.mq5
