@@ -18,6 +18,7 @@ A professional, cross-platform Java desktop application for analyzing your MetaT
 - **♻️ Rename & Update**: Rename accounts or strategies and automatically update all associated trades
 - **📂 Multi-Account**: Manage multiple trading accounts with starting balances
 - **📝 Trade Notes**: Add comments and post-trade analysis to your records
+- **📓 Notes Tab**: Dedicated space for writing and managing trading journal notes, ideas, and observations
 - **🎨 Professional UI**: Custom application icon and modern interface
 - **🌍 Cross-Platform**: Works on Windows, macOS, and Linux
 
@@ -251,7 +252,7 @@ Importing trades is easier than ever. The import dialog now lets you bulk-assign
 *   **Account Assignment**: Assign all imported trades to a specific account (e.g., "FTMO Challenge").
 *   **Strategy Assignment**: Tag an entire batch of trades with a strategy (e.g., "News Trading") instantly.
 
-### 5. Manual Manual Entry
+### 5. Manual Trade Entry
 Forgot to log a trade? Add it manually.
 
 <p align="center">
@@ -260,6 +261,18 @@ Forgot to log a trade? Add it manually.
 
 *   **Complete Data**: Enter entry/exit prices, times, and volume.
 *   **Calculations**: The system will automatically calculate P/L if you provide prices and size.
+
+### 6. Notes Tab
+Capture your trading thoughts, strategies, and observations in a dedicated notes section.
+
+<p align="center">
+  <img src="screenshots/notes_tab.png" alt="Notes Tab" width="800"/>
+</p>
+
+*   **Organized Notes**: Create and manage multiple notes with titles and timestamps
+*   **Rich Editor**: Write detailed trading journal entries, strategy ideas, or market observations
+*   **Auto-Save**: Changes are automatically saved when switching between notes
+*   **Persistent Storage**: All notes are saved locally and persist across sessions
 
 ---
 
@@ -286,7 +299,7 @@ Understanding your stats is key to improvement. Here is what every number tells 
 Trading Journal/
 ├── src/main/java/           # Java Source Code
 │   └── com/tradingjournal/
-│       ├── model/           # Data models (Trade, Account, etc.)
+│       ├── model/           # Data models (Trade, Account, Note, etc.)
 │       ├── repository/      # Data persistence layer
 │       ├── service/         # Business logic
 │       └── ui/              # Swing UI components
@@ -302,7 +315,8 @@ Trading Journal/
 ├── pom.xml                  # Maven configuration
 ├── trades.json              # Your trade database (auto-generated)
 ├── accounts.json            # Account data (auto-generated)
-└── strategies.json          # Strategy labels (auto-generated)
+├── strategies.json          # Strategy labels (auto-generated)
+└── notes.json               # Your notes database (auto-generated)
 ```
 
 ---
@@ -321,6 +335,7 @@ Trading Journal/
 ## 🎨 New in Recent Updates
 
 ### 🆕 Latest Features
+- ✅ **Notes Tab** - Dedicated space for writing trading journal notes and observations
 - ✅ **Full trade editing** - Edit every field in Trade Details dialog
 - ✅ **Strategy selection during import** - Assign strategies when importing trades
 - ✅ **Account renaming** - Rename accounts and auto-update all trades

@@ -8,6 +8,7 @@ import com.tradingjournal.model.EquityPoint;
 import com.tradingjournal.repository.StrategyRepository;
 import com.tradingjournal.repository.AccountRepository;
 import com.tradingjournal.repository.TradeRepository;
+import com.tradingjournal.repository.NoteRepository;
 import com.tradingjournal.service.EquityCurveCalculator;
 import com.tradingjournal.service.TradeAnalyzer;
 import com.tradingjournal.service.TradeBuddyTxtImportService;
@@ -33,6 +34,7 @@ public class MainWindow extends JFrame {
     private final TradeRepository repository;
     private final StrategyRepository strategyRepository;
     private final AccountRepository accountRepository;
+    private final NoteRepository noteRepository;
     private final TradeAnalyzer analyzer;
     private final EquityCurveCalculator equityCalculator;
     private final TradeBuddyTxtImportService importService;
@@ -80,6 +82,7 @@ public class MainWindow extends JFrame {
     private EntriesByMonthChartPanel entriesByMonthChartPanel;
     private PnLByHourChartPanel pnlByHourChartPanel;
     private PnLByMonthChartPanel pnlByMonthChartPanel;
+    private NotesPanel notesPanel;
     private List<Trade> allTrades;
     private List<Trade> filteredTrades;
 
@@ -93,6 +96,7 @@ public class MainWindow extends JFrame {
         this.repository = repository;
         this.strategyRepository = new StrategyRepository();
         this.accountRepository = new AccountRepository();
+        this.noteRepository = new NoteRepository();
         this.importService = new TradeBuddyTxtImportService();
         this.analyzer = new TradeAnalyzer();
         this.equityCalculator = new EquityCurveCalculator();
@@ -282,6 +286,13 @@ public class MainWindow extends JFrame {
         addMouseWheelListenerRecursively(analyticsTab, analyticsScrollPane);
 
         tabbedPane.addTab("Analytics", analyticsScrollPane);
+
+        // Tab 3: Notes
+        notesPanel = new NotesPanel(noteRepository);
+        JScrollPane notesScrollPane = new JScrollPane(notesPanel);
+        notesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        notesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        tabbedPane.addTab("Notes", notesScrollPane);
 
         // Add filter and tabs to main panel
         JPanel centerPanel = new JPanel(new BorderLayout());
