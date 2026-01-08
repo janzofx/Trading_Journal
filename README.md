@@ -1,4 +1,4 @@
-e# 📈 Trading Journal
+# 📈 Trading Journal
 
 A professional, cross-platform Java desktop application for analyzing your MetaTrader 5 trading performance. Import your trade history directly and visualize your edge with comprehensive analytics and beautiful UI.
 
@@ -184,7 +184,10 @@ java -jar target/trading-journal-1.0.0.jar
 
 **Windows:**
 ```batch
+:: Build the application
 build_app.bat
+
+:: Run the application
 TradingJournal.exe
 ```
 
