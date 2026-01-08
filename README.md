@@ -1,4 +1,4 @@
-# 📈 Trading Journal
+e# 📈 Trading Journal
 
 A professional, cross-platform Java desktop application for analyzing your MetaTrader 5 trading performance. Import your trade history directly and visualize your edge with comprehensive analytics and beautiful UI.
 
@@ -19,6 +19,7 @@ A professional, cross-platform Java desktop application for analyzing your MetaT
 - **📂 Multi-Account**: Manage multiple trading accounts with starting balances
 - **📝 Trade Notes**: Add comments and post-trade analysis to your records
 - **📓 Notes Tab**: Dedicated space for writing and managing trading journal notes, ideas, and observations
+- **📅 Calendar Tab**: Monthly calendar view with daily P&L, trade counts, color coding, and weekly P&L summary
 - **🎨 Professional UI**: Custom application icon and modern interface
 - **🌍 Cross-Platform**: Works on Windows, macOS, and Linux
 
@@ -274,6 +275,19 @@ Capture your trading thoughts, strategies, and observations in a dedicated notes
 *   **Auto-Save**: Changes are automatically saved when switching between notes
 *   **Persistent Storage**: All notes are saved locally and persist across sessions
 
+### 7. Calendar Tab
+Visualize your trading performance on a monthly calendar view.
+
+<p align="center">
+  <img src="screenshots/calendar_tab.png" alt="Calendar Tab" width="800"/>
+</p>
+
+*   **Monthly View**: See your trading days at a glance with P&L displayed on each day
+*   **Color Coding**: Green for profitable days, red for losing days
+*   **Trade Counts**: Shows number of trades executed per day
+*   **Weekly Summary**: P&L per week displayed in the sidebar
+*   **Navigation**: Easily browse through months using Prev/Next buttons
+
 ---
 
 ## 📊 Metrics Dictionary
@@ -335,6 +349,7 @@ Trading Journal/
 ## 🎨 New in Recent Updates
 
 ### 🆕 Latest Features
+- ✅ **Calendar Tab** - Monthly calendar view with daily P&L, color coding, and weekly summary
 - ✅ **Notes Tab** - Dedicated space for writing trading journal notes and observations
 - ✅ **Full trade editing** - Edit every field in Trade Details dialog
 - ✅ **Strategy selection during import** - Assign strategies when importing trades

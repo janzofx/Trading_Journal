@@ -83,6 +83,7 @@ public class MainWindow extends JFrame {
     private PnLByHourChartPanel pnlByHourChartPanel;
     private PnLByMonthChartPanel pnlByMonthChartPanel;
     private NotesPanel notesPanel;
+    private CalendarPanel calendarPanel;
     private List<Trade> allTrades;
     private List<Trade> filteredTrades;
 
@@ -287,7 +288,14 @@ public class MainWindow extends JFrame {
 
         tabbedPane.addTab("Analytics", analyticsScrollPane);
 
-        // Tab 3: Notes
+        // Tab 3: Calendar
+        calendarPanel = new CalendarPanel();
+        JScrollPane calendarScrollPane = new JScrollPane(calendarPanel);
+        calendarScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        calendarScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        tabbedPane.addTab("Calendar", calendarScrollPane);
+
+        // Tab 4: Notes
         notesPanel = new NotesPanel(noteRepository);
         JScrollPane notesScrollPane = new JScrollPane(notesPanel);
         notesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -1543,6 +1551,11 @@ public class MainWindow extends JFrame {
 
         // Update equity curve
         updateEquityCurve();
+
+        // Update calendar panel
+        if (calendarPanel != null) {
+            calendarPanel.setTrades(filteredTrades);
+        }
     }
 
     /**
